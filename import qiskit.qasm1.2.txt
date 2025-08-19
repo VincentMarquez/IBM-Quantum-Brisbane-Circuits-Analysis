@@ -1,0 +1,100 @@
+import qiskit.qasm3
+
+qasm = """
+OPENQASM 3.0;
+include "stdgates.inc";
+gate rzx(p0) _gate_q_0, _gate_q_1 {
+  h _gate_q_1;
+  cx _gate_q_0, _gate_q_1;
+  rz(p0) _gate_q_1;
+  cx _gate_q_0, _gate_q_1;
+  h _gate_q_1;
+}
+gate ecr _gate_q_0, _gate_q_1 {
+  rzx(pi/4) _gate_q_0, _gate_q_1;
+  x _gate_q_0;
+  rzx(-pi/4) _gate_q_0, _gate_q_1;
+}
+bit[4] c;
+rz(-pi) $0;
+sx $0;
+x $1;
+rz(pi/2) $1;
+ecr $1, $0;
+sx $0;
+rz(pi/6) $0;
+rz(-pi/2) $1;
+sx $1;
+rz(-3*pi/4) $1;
+sx $1;
+rz(pi/2) $1;
+x $2;
+rz(pi/2) $2;
+ecr $2, $1;
+sx $1;
+rz(pi/6) $1;
+sx $1;
+rz(-pi/2) $1;
+ecr $1, $0;
+sx $0;
+rz(-pi/2) $1;
+sx $1;
+rz(-pi/4) $1;
+sx $1;
+ecr $1, $0;
+sx $0;
+rz(1.439896632895321) $0;
+rz(-pi) $1;
+sx $1;
+rz(-pi/2) $2;
+sx $2;
+rz(-5*pi/6) $2;
+sx $2;
+rz(pi/2) $2;
+x $3;
+rz(pi/2) $3;
+ecr $3, $2;
+sx $2;
+rz(pi/6) $2;
+sx $2;
+rz(-pi/2) $2;
+ecr $2, $1;
+sx $1;
+rz(-pi/2) $2;
+sx $2;
+rz(-pi/4) $2;
+sx $2;
+ecr $2, $1;
+rz(1.908768422432935) $1;
+sx $1;
+rz(-2.5405731417947974) $1;
+sx $1;
+rz(3.038822307803212) $1;
+rz(-pi) $2;
+sx $2;
+rz(-5*pi/6) $3;
+sx $3;
+rz(-pi/2) $3;
+ecr $3, $2;
+sx $2;
+rz(-pi/2) $3;
+sx $3;
+rz(-pi/4) $3;
+sx $3;
+ecr $3, $2;
+rz(-0.5254310541274938) $2;
+sx $2;
+rz(-2.9825063244716645) $2;
+sx $2;
+rz(-0.5254310541275009) $2;
+sx $3;
+rz(13*pi/15) $3;
+sx $3;
+rz(pi/2) $3;
+c[0] = measure $0;
+c[1] = measure $1;
+c[2] = measure $2;
+c[3] = measure $3;
+
+"""
+circuit = qiskit.qasm3.loads(qasm)
